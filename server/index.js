@@ -2,8 +2,13 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Mock user data
 const mockUser = {
@@ -14,7 +19,6 @@ const mockUser = {
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
-  // Validation
   if (!email || !password) {
     return res.status(400).json({
       success: false,
@@ -22,20 +26,22 @@ app.post("/api/login", (req, res) => {
     });
   }
 
-  // Authentication check
   if (email === mockUser.email && password === mockUser.password) {
-    return res.status(200).json({
+    return res.json({
       success: true,
-      message: "Login successful!",
+      message: "Login successful",
     });
   }
 
   return res.status(401).json({
     success: false,
-    message: "Invalid email or password.",
+    message: "Invalid email or password",
   });
 });
 
-app.listen(5000, () => {
-  console.log("Backend running on http://localhost:5000");
-});
+// IMPORTANT: dynamic port
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});cd

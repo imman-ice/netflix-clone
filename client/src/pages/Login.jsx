@@ -23,7 +23,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await axios.post("http://localhost:5000/api/login", {
+      axios.post("https://netflix-clone-p9fy.onrender.com/api/login", {
         email,
         password,
       });

@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
 app.use(express.json());
 
 app.use(
@@ -17,11 +16,15 @@ const mockUser = {
   password: "123456",
 };
 
-// Login Route
+// Home route (optional)
+app.get("/", (req, res) => {
+  res.send("Netflix Clone Backend is Running 🚀");
+});
+
+// Login route
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
-  // Validation
   if (!email || !password) {
     return res.status(400).json({
       success: false,
@@ -29,11 +32,11 @@ app.post("/api/login", (req, res) => {
     });
   }
 
-  // Mock authentication
   if (email === mockUser.email && password === mockUser.password) {
     return res.status(200).json({
       success: true,
       message: "Login successful!",
+      token: "mock-netflix-token-12345",
     });
   }
 
@@ -43,7 +46,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 
-// Render requires dynamic PORT
+// Port for Render
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
